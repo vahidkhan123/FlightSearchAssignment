@@ -1,0 +1,14 @@
+<div class="flt-header" *ngIf="searchResultHeader">
+  <div class="from-to">
+    {{
+      (searchResultHeader.oneWay ?
+      searchResultHeader.source + ' > ' + searchResultHeader.destination :
+      searchResultHeader.source + ' > ' +  searchResultHeader.destination + ' > ' + searchResultHeader.source)
+      | titlecase
+    }}
+  </div>
+  <div class="journy-dt">
+    <h5>Depart : {{ searchResultHeader.startDate }}</h5>
+    <h5 *ngIf="!searchResultHeader.oneWay">Return  : {{ searchResultHeader?.returnDate }}</h5>
+  </div>
+</div>

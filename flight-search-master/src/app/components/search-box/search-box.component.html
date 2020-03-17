@@ -1,0 +1,152 @@
+<form [formGroup]="searchForm" (ngSubmit)="searchFlights()">
+  <div class="radio-toolbar">
+    <span>
+      <input
+        type="radio"
+        id="oneway"
+        (change)="isOneway = !isOneway"
+        formControlName="type"
+        value="oneway" checked>
+      <label for="oneway">One way</label>
+    </span>
+    <span style="margin-left: 10px">
+      <input
+        type="radio"
+        id="retrun"
+        (change)="isOneway = !isOneway"
+        formControlName="type"
+        value="return">
+      <label for="retrun">Return</label>
+    </span>
+  </div>
+  <div class="">
+    <div class="form-row">
+      <div class="form-field">
+        <input
+          formControlName="origin"
+          [ngClass]="{'error': searchForm.get('origin').invalid && searchForm.get('origin').touched}"
+          (focus)="clearInput('origin')"
+          required
+          type="text"
+          class="form-control"
+          placeholder="Enter Origin City">
+      </div>
+      <div
+        *ngIf="searchForm.get('origin').invalid && searchForm.get('origin').touched"
+        class="invalid-feedback">
+        Required
+      </div>
+      <div class="filter-select" *ngIf="originCities?.length">
+        <ul class="filter-select-ul">
+          <li
+            (click)= "onSelectAutoSuggestedCity(city, 'origin')"
+            *ngFor="let city of originCities" class="filter-select-list">
+            {{city}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <input
+          formControlName="destination"
+          [ngClass]="{'error': searchForm.get('destination').invalid && searchForm.get('destination').touched}"
+          (focus)="clearInput('destination')"
+          type="text"
+          class="form-control"
+          placeholder="Enter Destination City">
+      </div>
+      <div
+         *ngIf="searchForm.get('destination').invalid && searchForm.get('destination').touched"
+        class="invalid-feedback">
+        Required
+      </div>
+      <div class="filter-select" *ngIf="destinationCities?.length">
+        <ul class="filter-select-ul">
+          <li
+            (click)= "onSelectAutoSuggestedCity(city, 'destination')"
+            *ngFor="let city of destinationCities" class="filter-select-list">
+            {{city}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-row" title="Departure date">
+      <div class="form-field">
+        <input
+          formControlName="departureDate"
+          type="date"
+          [ngClass]="{'error': searchForm.get('departureDate').invalid && searchForm.get('departureDate').touched}"
+          class="form-control"
+          min="{{currentDate}}"
+          placeholder="Departure date">
+      </div>
+      <div
+        *ngIf="searchForm.get('departureDate').invalid && searchForm.get('departureDate').touched"
+        class="invalid-feedback">
+          Required
+      </div>
+    </div>
+
+    <div class="form-row" title="Return date"  *ngIf="!isOneway">
+      <div class="form-field">
+        <input
+          formControlName="returnDate"
+          [ngClass]="{'error': searchForm.get('returnDate').invalid && searchForm.get('returnDate').touched}"
+          type="date"
+          class="form-control error"
+          min="{{currentDate}}"
+          placeholder="Return date">
+      </div>
+      <div
+        *ngIf="searchForm.get('returnDate').invalid && searchForm.get('returnDate').touched"
+        class="invalid-feedback">
+          Required
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <select
+          [ngClass]="{'error': searchForm.get('passengers').invalid && searchForm.get('passengers').touched}"
+          formControlName="passengers"
+          class="form-control">
+          <option value="">Passengers</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div
+        *ngIf="searchForm.get('passengers').invalid && searchForm.get('passengers').touched"
+        class="invalid-feedback">
+          Required
+      </div>
+    </div>
+
+    <div class="form-field searchBtn">
+      <button
+        class="search-btn"
+        type="submit">Search</button>
+    </div>
+  </div>
+  <div class="slidecontainer">
+    <div class="sliderBlk">
+      <h3>Refine flight search</h3>
+      <div>{{ this.searchForm.get('price').value }}</div>
+    </div>
+    <input
+      formControlName="price"
+      type="range"
+      min="1000"
+      max="40000"
+      step="100"
+      class="slider"
+      id="myRange" >
+  </div>
+
+</form>

@@ -1,0 +1,57 @@
+<div *ngIf="showResult">
+  <div *ngIf="searchResults.oneway === true">
+    <div class="flight-row" *ngFor="let flight of searchResults.oneWayFlights">
+      <div class="flight-left" >
+        <div class="flt-ar-info">
+          <div class="dep-flight flightBlock">
+            <h2 class="price">{{flight.amount | currency:'INR':'symbol':'3.0-0'}}</h2>
+            <h5>{{flight.flightNo}}</h5>
+            <h3>{{ flight.origin + ' > ' + flight.destination | titlecase }}</h3>
+            <h4>Depart : <span>{{flight.time.depart | date:'shortTime'}}</span></h4>
+            <h4>Arrive : <span>{{flight.time.arrive | date:'shortTime'}}</span></h4>
+          </div>
+        </div>
+      </div>
+      <div class="flight-right">
+        <span class="imgC"> <img src="assets/images/ai.png" alt=""> </span>
+        <button class="bookBtn">Book</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="searchResults.oneway === false">
+    <ng-container *ngFor="let flight of searchResults.returningFlights; let i = index">
+      <div class="flight-row" *ngIf="searchResults.returningFlights[i] !== undefined && searchResults.oneWayFlights[i]!==undefined">
+        <div class="flight-left">
+            <div class="flt-ar-info">
+              <div class="dep-flight flightBlock">
+                <h2 class="price">{{searchResults.oneWayFlights[i].amount | currency:'INR':'symbol':'3.0-0'}}</h2>
+                <h5>{{searchResults.oneWayFlights[i].flightNo}}</h5>
+                <h3>{{searchResults.oneWayFlights[i].origin + ' > ' + searchResults.oneWayFlights[i].destination | titlecase}}
+                </h3>
+                <h4>Depart : <span>{{ searchResults.oneWayFlights[i].time.depart | date:'shortTime'}}</span></h4>
+                <h4>Arrive : <span>{{searchResults.oneWayFlights[i].time.arrive | date:'shortTime'}}</span></h4>
+              </div>
+              <div class="arv-flight flightBlock">
+                <h2 class="price">{{flight.amount | currency:'INR':'symbol':'3.0-0'}}</h2>
+                <h5>{{flight.flightNo}}</h5>
+                <h3>{{ flight.origin + ' > ' + flight.destination | titlecase}}</h3>
+                <h4>Depart : <span>{{flight.time.depart | date:'shortTime'}}</span></h4>
+                <h4>Arrive : <span>{{flight.time.arrive | date:'shortTime'}}</span></h4>
+              </div>
+            </div>
+          </div>
+          <div class="flight-right">
+            <span class="imgC"> <img src="assets/images/ai.png" alt=""> </span>
+            <button class="bookBtn">Book</button>
+          </div>
+      </div>
+    </ng-container>
+  </div>
+
+</div>
+
+<div class="noResult" *ngIf="emptyResult">
+  Sorry, there aren't any flights available for search
+</div>
+
